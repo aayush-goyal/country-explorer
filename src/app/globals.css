@@ -81,25 +81,3 @@
   }
 }
 
-@layer components {
-  @media (min-height: 400px) {
-    .h-sm {
-      min-height: 400px;
-    }
-  }
-  @media (min-height: 600px) {
-    .h-md {
-      min-height: 600px;
-    }
-  }
-  @media (min-height: 800px) {
-    .h-lg {
-      min-height: 800px;
-    }
-  }
-  @media (min-height: 1000px) {
-    .h-xl {
-      min-height: 1000px;
-    }
-  }
-}

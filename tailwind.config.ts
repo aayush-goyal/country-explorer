@@ -26,9 +26,10 @@ module.exports = {
             },
             colors: {
                 jasper: '#BF4E30',
+                'ash-gray-light': '#E2E6D9',
                 'ash-gray': '#C6CCB2',
                 'dark-green': '#093824',
-                lavender: '#E5EAFA',
+                lavender: '#C9D2F2',
                 aquamarine: '#78FECF',
                 'metal-10': '#D3D7D9',
                 'metal-20': '#B5BDC0',
