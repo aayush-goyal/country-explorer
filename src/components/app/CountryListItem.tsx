@@ -38,8 +38,14 @@ export default function CountryListItem(props: {
 
     // SECTION: UI
     return (
-        <div className="my-4 grid grid-cols-8 items-center justify-items-center gap-2">
-            <Bookmark />
+        <div className="my-4 grid grid-cols-7 items-center justify-items-center gap-2">
+            <Button
+                variant="link"
+                className="!p-0"
+                onClick={() => handleBookmark(props.countryDetails)}
+            >
+                <Bookmark />
+            </Button>
             <Image
                 src={props.countryDetails.flags.svg}
                 alt={props.countryDetails.flags.alt}
@@ -47,15 +53,8 @@ export default function CountryListItem(props: {
                 height={32}
                 width={64}
             />
-            <Button
-                variant="link"
-                className="!p-0"
-                onClick={() => handleBookmark(props.countryDetails)}
-            >
-                BOOKMARK
-            </Button>
             <p className="text-center">{props.countryDetails.name.common}</p>
-            <p>{props.countryDetails.capital.join(', ')}</p>
+            <p>{props.countryDetails.capital?.join(', ')}</p>
             <p>{props.countryDetails.region}</p>
             <p>{props.countryDetails.population.toLocaleString()}</p>
             <Button variant="secondary" onClick={props.onClick}>

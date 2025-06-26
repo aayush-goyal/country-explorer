@@ -68,10 +68,12 @@ export default function RootLayout(props: LayoutProps) {
 
     useEffect(() => {
         // NOTE: Hide header on login page
-        if (pathname !== '/login') {
+        if (pathname === '/login') {
+            setShowHeader(false);
+        } else {
             setShowHeader(true);
         }
-    }, []);
+    }, [pathname]);
     // !SECTION
 
     // SECTION: UI

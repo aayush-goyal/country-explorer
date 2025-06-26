@@ -21,7 +21,6 @@ export default function CountryTable(props: { countries: Country[] }) {
     const tableHeadings = [
         'Bookmarked?',
         'Flag',
-        'Bookmark',
         'Name',
         'Capital',
         'Region',
@@ -54,7 +53,7 @@ export default function CountryTable(props: { countries: Country[] }) {
     // !SECTION
     return (
         <div>
-            <div className="grid grid-cols-8 items-center justify-items-center">
+            <div className="grid grid-cols-7 items-center justify-items-center">
                 {tableHeadings.map((heading) => (
                     <p key={heading} className="font-medium">
                         {heading}
@@ -66,7 +65,7 @@ export default function CountryTable(props: { countries: Country[] }) {
                     <CountryListItem
                         key={country.name.common}
                         countryDetails={country}
-                        onClick={() => handleCountryClick(country.alpha2Code)}
+                        onClick={() => handleCountryClick(country.cca3)}
                     />
                 ))}
         </div>
