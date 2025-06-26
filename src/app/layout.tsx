@@ -75,7 +75,7 @@ export default function RootLayout(props: LayoutProps) {
                 <title>Where Next?</title>
                 <link rel="icon" href="/favicon.ico" />
             </head>
-            <body className="bg-ash-gray-light h-screen max-h-screen">
+            <body className="h-screen max-h-screen bg-ash-gray-light">
                 <RQProviders>{props.children}</RQProviders>
                 <Toaster />
             </body>
