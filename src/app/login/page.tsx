@@ -30,7 +30,6 @@ export default function ComponentName() {
     const router = useRouter();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const { toast } = useToast();
 
@@ -57,13 +56,15 @@ export default function ComponentName() {
     // !SECTION
 
     // SECTION: Event Handlers
-    const handleSubmit = () => {
+    const handleSubmit = (event?: React.FormEvent | KeyboardEvent) => {
+        if (event && typeof event.preventDefault === 'function') {
+            event.preventDefault();
+        }
         if (username === 'testuser' && password === 'password123') {
             localStorage.setItem(
                 'authDetails',
                 JSON.stringify({ isAuthenticated: true, username, password })
             );
-            setError('');
             toast({
                 title: 'Login Successful'
             });
@@ -73,10 +74,9 @@ export default function ComponentName() {
                 title: 'Login Failed',
                 description: 'Invalid username or password'
             });
-            setError('Invalid username or password');
             toast({
                 title: 'Error',
-                description: error
+                description: 'Invalid username or password'
             });
         }
     };
@@ -84,6 +84,7 @@ export default function ComponentName() {
 
     // SECTION: Side Effects
     useEffect(() => {
+        // Check if the user is already authenticated
         const authDetails = localStorage.getItem('authDetails');
         if (authDetails) {
             const { isAuthenticated } = JSON.parse(authDetails);
@@ -104,7 +105,10 @@ export default function ComponentName() {
             <h3 className="w-full text-center text-h3">
                 Best things happen when you login.
             </h3>
-            <div className="mx-auto mt-24 flex w-full flex-col items-center">
+            <form
+                className="mx-auto mt-24 flex w-full flex-col items-center"
+                onSubmit={handleSubmit}
+            >
                 {/* Username */}
                 <div className="w-4/5 max-w-[400px]">
                     <Label htmlFor="username" className="block">
@@ -139,51 +143,48 @@ export default function ComponentName() {
                         </button>
                     </div>
                 </div>
-            </div>
-
-            <div className="mx-auto mt-12 flex w-full flex-col items-center">
                 <Button
-                    className="w-4/5 max-w-[400px] tracking-[1px]"
-                    onClick={() => handleSubmit()}
+                    className="mt-12 w-4/5 max-w-[400px] tracking-[1px]"
+                    type="submit"
                 >
                     LOGIN
                 </Button>
-                {isFetched && (
-                    <div className="mt-20 w-4/5 max-w-[480px] text-center">
-                        <Marquee direction="left">
-                            <div className="flex items-center space-x-4">
-                                {data.data
-                                    .slice(0, data.data.length / 2)
-                                    .map((country: Pick<Country, 'flags'>) => (
-                                        <Image
-                                            src={country.flags.svg}
-                                            alt={country.flags.alt}
-                                            height={24}
-                                            width={48}
-                                        />
-                                    ))}
-                            </div>
-                        </Marquee>
-                        <Marquee direction="right">
-                            <div className="flex items-center space-x-4">
-                                {data.data
-                                    .slice(data.data.length / 2)
-                                    .map((country: Pick<Country, 'flags'>) => (
-                                        <Image
-                                            src={country.flags.svg}
-                                            alt={country.flags.alt}
-                                            height={24}
-                                            width={48}
-                                        />
-                                    ))}
-                            </div>
-                        </Marquee>
-                        <p className="text-center text-[16px]">
-                            So many countries to explore, so little time!
-                        </p>
-                    </div>
-                )}
-            </div>
+            </form>
+            {isFetched && (
+                <div className="mx-auto mt-20 w-4/5 max-w-[480px] text-center">
+                    <Marquee direction="left">
+                        <div className="flex items-center space-x-4">
+                            {data.data
+                                .slice(0, data.data.length / 2)
+                                .map((country: Pick<Country, 'flags'>) => (
+                                    <Image
+                                        src={country.flags.svg}
+                                        alt={country.flags.alt}
+                                        height={24}
+                                        width={48}
+                                    />
+                                ))}
+                        </div>
+                    </Marquee>
+                    <Marquee direction="right">
+                        <div className="flex items-center space-x-4">
+                            {data.data
+                                .slice(data.data.length / 2)
+                                .map((country: Pick<Country, 'flags'>) => (
+                                    <Image
+                                        src={country.flags.svg}
+                                        alt={country.flags.alt}
+                                        height={24}
+                                        width={48}
+                                    />
+                                ))}
+                        </div>
+                    </Marquee>
+                    <p className="text-center text-[16px]">
+                        So many countries to explore, so little time!
+                    </p>
+                </div>
+            )}
         </div>
         // </div>
     );
