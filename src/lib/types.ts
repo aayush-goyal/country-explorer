@@ -24,6 +24,8 @@ interface Country {
     name: {
         common: string;
     };
+    population: number;
+    region: string;
 }
 
 export type { Country, LayoutProps, MarqueeProps };
