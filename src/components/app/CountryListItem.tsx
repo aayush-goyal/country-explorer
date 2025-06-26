@@ -38,21 +38,23 @@ export default function CountryListItem(props: {
 
     // SECTION: UI
     return (
-        <div className="my-2 grid grid-cols-8 items-center">
+        <div className="my-4 grid grid-cols-8 items-center justify-items-center gap-2">
             <Bookmark />
             <Image
                 src={props.countryDetails.flags.svg}
                 alt={props.countryDetails.flags.alt}
-                height={40}
-                width={80}
+                className="rounded-md"
+                height={32}
+                width={64}
             />
             <Button
                 variant="link"
+                className="!p-0"
                 onClick={() => handleBookmark(props.countryDetails)}
             >
                 BOOKMARK
             </Button>
-            <p>{props.countryDetails.name.common}</p>
+            <p className="text-center">{props.countryDetails.name.common}</p>
             <p>{props.countryDetails.capital.join(', ')}</p>
             <p>{props.countryDetails.region}</p>
             <p>{props.countryDetails.population.toLocaleString()}</p>
