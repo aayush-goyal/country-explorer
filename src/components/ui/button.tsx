@@ -16,11 +16,12 @@ import { cn } from '@/src/lib/utils';
  * This file defines a Button component with various styles and variants.
  */
 const buttonVariants = cva(
-    'text-[16px] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-bold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+    'active:scale-90 text-[16px] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-bold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
     {
         variants: {
             variant: {
-                default: 'bg-lavender hover:bg-amber-60 text-metal-100 shadow',
+                default:
+                    'bg-dark-green dark:bg-aquamarine hover:bg-amber-60 dark:text-metal-100 text-amber-10 shadow',
                 destructive:
                     'bg-destructive text-metal-100 shadow-sm hover:bg-destructive/90',
                 outline:
