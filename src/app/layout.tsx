@@ -3,6 +3,8 @@
 // Import global from third party libraries.
 // eslint-disable-next-line camelcase
 import localFont from 'next/font/local';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 // Import custom styles.
 
@@ -13,6 +15,7 @@ import RQProviders from '@/src/lib/providers';
 import LayoutProps from '@/src/lib/types';
 
 // Import custom components.
+import Header from '@/src/components/app/Header';
 import { Toaster } from '@/src/components/ui/toaster';
 
 // Import styles.
@@ -57,10 +60,17 @@ const clashGrotesk = localFont({
  */
 export default function RootLayout(props: LayoutProps) {
     // SECTION: States and Constants
+    const [showHeader, setShowHeader] = useState<boolean>(false);
+    const pathname = usePathname();
     // !SECTION
 
     // SECTION: Side Effects
 
+    useEffect(() => {
+        if (pathname !== '/login') {
+            setShowHeader(true);
+        }
+    }, []);
     // !SECTION
 
     // SECTION: UI
@@ -75,8 +85,11 @@ export default function RootLayout(props: LayoutProps) {
                 <title>Where Next?</title>
                 <link rel="icon" href="/favicon.ico" />
             </head>
-            <body className="h-screen max-h-screen bg-ash-gray-light">
-                <RQProviders>{props.children}</RQProviders>
+            <body className="h-screen max-h-screen bg-amber-10 dark:bg-metal-100">
+                <RQProviders>
+                    {showHeader && <Header />}
+                    <div className="mx-8">{props.children}</div>
+                </RQProviders>
                 <Toaster />
             </body>
         </html>
