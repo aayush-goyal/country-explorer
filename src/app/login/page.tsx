@@ -1,6 +1,9 @@
 'use client';
 
 // Import global from third party libraries.
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/src/lib/hooks/use-toast';
@@ -9,10 +12,12 @@ import { useToast } from '@/src/lib/hooks/use-toast';
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import Label from '@/src/components/ui/label';
+import Marquee from '@/src/components/ui/marquee';
 
 // Import custom utilities.
 
 // Import custom types.
+import { Country } from '@/src/lib/types';
 
 // Import styles.
 
@@ -42,7 +47,13 @@ export default function ComponentName() {
     // !SECTION
 
     // SECTION: API Queries
-
+    const { data, isFetched } = useQuery({
+        queryKey: ['is-username-available'],
+        queryFn: () =>
+            axios.get(`https://restcountries.com/v3.1/all?fields=flags`),
+        // enabled: !isAuthenticated,
+        retry: false
+    });
     // !SECTION
 
     // SECTION: Event Handlers
@@ -86,14 +97,14 @@ export default function ComponentName() {
     // SECTION: UI
     // !SECTION
     return (
-        <div className="h-screen">
+        <div className="h-screen pt-24">
             <h1 className="w-full text-center text-h1 font-medium text-dark-green">
                 Get started!
             </h1>
             <h3 className="w-full text-center text-h3">
                 Best things happen when you login.
             </h3>
-            <div className="mx-auto mt-12 flex w-full flex-col items-center">
+            <div className="mx-auto mt-24 flex w-full flex-col items-center">
                 {/* Username */}
                 <div className="w-4/5 max-w-[400px]">
                     <Label htmlFor="username" className="block">
@@ -137,6 +148,41 @@ export default function ComponentName() {
                 >
                     LOGIN
                 </Button>
+                {isFetched && (
+                    <div className="mt-20 w-4/5 max-w-[480px] text-center">
+                        <Marquee direction="left">
+                            <div className="flex items-center space-x-4">
+                                {data.data
+                                    .slice(0, data.data.length / 2)
+                                    .map((country: Pick<Country, 'flags'>) => (
+                                        <Image
+                                            src={country.flags.svg}
+                                            alt={country.flags.alt}
+                                            height={24}
+                                            width={48}
+                                        />
+                                    ))}
+                            </div>
+                        </Marquee>
+                        <Marquee direction="right">
+                            <div className="flex items-center space-x-4">
+                                {data.data
+                                    .slice(data.data.length / 2)
+                                    .map((country: Pick<Country, 'flags'>) => (
+                                        <Image
+                                            src={country.flags.svg}
+                                            alt={country.flags.alt}
+                                            height={24}
+                                            width={48}
+                                        />
+                                    ))}
+                            </div>
+                        </Marquee>
+                        <p className="text-center text-[16px]">
+                            So many countries to explore, so little time!
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
         // </div>

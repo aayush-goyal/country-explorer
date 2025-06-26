@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import RQProviders from '@/src/lib/providers';
 
 // Import custom types.
-import LayoutProps from '@/src/lib/types';
+import { LayoutProps } from '@/src/lib/types';
 
 // Import custom components.
 import Header from '@/src/components/app/Header';
@@ -67,6 +67,7 @@ export default function RootLayout(props: LayoutProps) {
     // SECTION: Side Effects
 
     useEffect(() => {
+        // NOTE: Hide header on login page
         if (pathname !== '/login') {
             setShowHeader(true);
         }

@@ -6,6 +6,14 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
+interface MarqueeProps {
+    children: React.ReactNode;
+    speed?: number; // in seconds
+    className?: string;
+    direction?: 'left' | 'right';
+    start?: 'start' | 'center';
+}
+
 interface Country {
     capital: string[];
     flags: {
@@ -18,6 +26,4 @@ interface Country {
     };
 }
 
-export type { Country };
-
-export default LayoutProps;
+export type { Country, LayoutProps, MarqueeProps };
