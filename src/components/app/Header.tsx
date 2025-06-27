@@ -101,13 +101,21 @@ export default function Header() {
                         <Sun className="text-xl" />
                     )}
                 </Button>
-                {isAuthenticated && (
+                {isAuthenticated ? (
                     <Button
                         variant="link"
                         onClick={() => handleLogout()}
                         className="tracking-[1px]"
                     >
                         LOGOUT
+                    </Button>
+                ) : (
+                    <Button
+                        variant="link"
+                        onClick={() => router.push('/login')}
+                        className="tracking-[1px]"
+                    >
+                        LOGIN
                     </Button>
                 )}
             </div>
