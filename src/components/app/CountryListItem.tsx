@@ -88,14 +88,14 @@ export default function CountryListItem(props: {
     // SECTION: UI
     return (
         <motion.div
-            className="my-4 grid grid-cols-7 items-center justify-items-center gap-2"
+            className="my-4 flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow sm:grid sm:grid-cols-7 sm:items-center sm:justify-items-center sm:gap-2"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
         >
             <Button
                 variant="link"
-                className="!p-0"
+                className="order-1 !p-0 sm:order-none"
                 onClick={() => handleBookmark(props.countryDetails)}
             >
                 <Bookmark fill={isBookmarked() ? 'currentColor' : 'none'} />
@@ -103,15 +103,27 @@ export default function CountryListItem(props: {
             <Image
                 src={props.countryDetails.flags.svg}
                 alt={props.countryDetails.flags.alt}
-                className="rounded-md"
+                className="order-2 rounded-md sm:order-none"
                 height={32}
                 width={64}
             />
-            <p className="text-center">{props.countryDetails.name.common}</p>
-            <p>{props.countryDetails.capital?.join(', ')}</p>
-            <p>{props.countryDetails.region}</p>
-            <p>{props.countryDetails.population.toLocaleString()}</p>
-            <Button variant="secondary" onClick={props.onClick}>
+            <p className="order-3 w-full break-words text-center text-base font-semibold sm:order-none sm:w-auto">
+                {props.countryDetails.name.common}
+            </p>
+            <p className="order-4 w-full text-center text-sm text-gray-700 sm:order-none sm:w-auto">
+                {props.countryDetails.capital?.join(', ')}
+            </p>
+            <p className="order-5 w-full text-center text-sm text-gray-700 sm:order-none sm:w-auto">
+                {props.countryDetails.region}
+            </p>
+            <p className="order-6 w-full text-center text-sm text-gray-700 sm:order-none sm:w-auto">
+                {props.countryDetails.population.toLocaleString()}
+            </p>
+            <Button
+                variant="secondary"
+                onClick={props.onClick}
+                className="order-7 mt-2 w-full sm:order-none sm:mt-0 sm:w-auto"
+            >
                 CHECKOUT
             </Button>
         </motion.div>

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import CountryListItem from '@/src/components/app/CountryListItem';
 
 // Import custom utilities.
+import { useIsMobile } from '@/src/lib/hooks/use-mobile';
 
 // Import custom types.
 import { Country } from '@/src/lib/types';
@@ -27,6 +28,7 @@ export default function CountryTable(props: { countries: Country[] }) {
         'Population',
         'Know More'
     ];
+    const isMobile = useIsMobile();
     const router = useRouter();
     // !SECTION
 
@@ -53,13 +55,15 @@ export default function CountryTable(props: { countries: Country[] }) {
     // !SECTION
     return (
         <div>
-            <div className="grid grid-cols-7 items-center justify-items-center">
-                {tableHeadings.map((heading) => (
-                    <p key={heading} className="font-medium">
-                        {heading}
-                    </p>
-                ))}
-            </div>
+            {!isMobile && (
+                <div className="grid grid-cols-7 items-center justify-items-center">
+                    {tableHeadings.map((heading) => (
+                        <p key={heading} className="font-medium">
+                            {heading}
+                        </p>
+                    ))}
+                </div>
+            )}
             {props.countries.length > 0 &&
                 props.countries.map((country) => (
                     <CountryListItem

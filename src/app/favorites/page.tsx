@@ -5,14 +5,15 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Import custom components.
-import Loading from '@/src/components/app/Loading';
-import { Country } from '@/src/lib/types';
-import CountryListItem from '@/src/components/app/CountryListItem';
 import { Button } from '@/src/components/ui/button';
+import CountryListItem from '@/src/components/app/CountryListItem';
+import Loading from '@/src/components/app/Loading';
 
 // Import custom utilities.
+import { useIsMobile } from '@/src/lib/hooks/use-mobile';
 
 // Import custom types.
+import { Country } from '@/src/lib/types';
 
 // Import styles.
 
@@ -32,6 +33,7 @@ export default function Favorites() {
     ];
     const [favorites, setFavorites] = useState<Country[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const isMobile = useIsMobile();
     const router = useRouter();
     // !SECTION
 
@@ -83,17 +85,22 @@ export default function Favorites() {
             ) : (
                 <div>
                     {favorites.length > 0 ? (
-                        <div>
-                            <h2 className="mb-4 text-2xl font-bold">
+                        <div className="mt-8">
+                            <h1 className="mb-8 text-center text-h1 lg:text-left">
                                 Your Favorites
-                            </h2>
-                            <div className="grid grid-cols-7 items-center justify-items-center">
-                                {tableHeadings.map((heading) => (
-                                    <p key={heading} className="font-medium">
-                                        {heading}
-                                    </p>
-                                ))}
-                            </div>
+                            </h1>
+                            {!isMobile && (
+                                <div className="grid grid-cols-7 items-center justify-items-center">
+                                    {tableHeadings.map((heading) => (
+                                        <p
+                                            key={heading}
+                                            className="font-medium"
+                                        >
+                                            {heading}
+                                        </p>
+                                    ))}
+                                </div>
+                            )}
                             {favorites.map((country) => (
                                 <CountryListItem
                                     key={country.cca3}
