@@ -41,7 +41,7 @@ export default function HomePage() {
     const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
     const [fields, setFields] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [regions, setRegions] = useState<string[]>([]);
+    // const [regions, setRegions] = useState<string[]>([]);
     // !SECTION
 
     // SECTION: API Queries
@@ -134,11 +134,10 @@ export default function HomePage() {
                         </svg>
                     </span>
                     <Select
-                        multiple
-                        value={regions}
-                        onValueChange={(selected: string[]) =>
-                            setRegions(selected)
-                        }
+                    // value={regions}
+                    // onValueChange={(selected: string[]) =>
+                    //     setRegions(selected)
+                    // }
                     >
                         <SelectTrigger
                             className="ml-4 rounded-lg border px-3 py-2"
@@ -148,14 +147,14 @@ export default function HomePage() {
                                 {allRegions.map((region) => (
                                     <SelectItem key={region} value={region}>
                                         <div className="flex items-center">
-                                            <input
+                                            {/* <input
                                                 type="checkbox"
                                                 checked={regions.includes(
                                                     region
                                                 )}
                                                 readOnly
                                                 className="mr-2"
-                                            />
+                                            /> */}
                                             {region}
                                         </div>
                                     </SelectItem>

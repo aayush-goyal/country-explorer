@@ -24,32 +24,32 @@ import './globals.css';
 const clashGrotesk = localFont({
     src: [
         {
-            path: './../../public/fonts/clash_grotesk/ClashGrotesk-ExtraLight.otf',
+            path: '../../public/fonts/clash_grotesk/ClashGrotesk-ExtraLight.otf',
             weight: '200',
             style: 'normal'
         },
         {
-            path: './../../public/fonts/clash_grotesk/ClashGrotesk-Light.otf',
+            path: '../../public/fonts/clash_grotesk/ClashGrotesk-Light.otf',
             weight: '300',
             style: 'normal'
         },
         {
-            path: './../../public/fonts/clash_grotesk/ClashGrotesk-Regular.otf',
+            path: '../../public/fonts/clash_grotesk/ClashGrotesk-Regular.otf',
             weight: '400',
             style: 'normal'
         },
         {
-            path: './../../public/fonts/clash_grotesk/ClashGrotesk-Medium.otf',
+            path: '../../public/fonts/clash_grotesk/ClashGrotesk-Medium.otf',
             weight: '500',
             style: 'normal'
         },
         {
-            path: './../../public/fonts/clash_grotesk/ClashGrotesk-Semibold.otf',
+            path: '../../public/fonts/clash_grotesk/ClashGrotesk-Semibold.otf',
             weight: '600',
             style: 'normal'
         },
         {
-            path: './../../public/fonts/clash_grotesk/ClashGrotesk-Bold.otf',
+            path: '../../public/fonts/clash_grotesk/ClashGrotesk-Bold.otf',
             weight: '700',
             style: 'normal'
         }
