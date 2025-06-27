@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Import custom components.
+import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/src/components/ui/button';
 
 // Import custom utilities.
@@ -19,6 +20,9 @@ import { Button } from '@/src/components/ui/button';
  */
 export default function Header() {
     // SECTION: States and Constants
+    const [theme, setTheme] = useState<string>(
+        localStorage.getItem('theme') || 'light'
+    );
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const router = useRouter();
     // !SECTION
@@ -27,6 +31,23 @@ export default function Header() {
     // !SECTION
 
     // SECTION: Event Handlers
+    const handleThemeToggle = () => {
+        const themePref = localStorage.getItem('theme');
+        if (themePref === 'dark') {
+            localStorage.setItem('theme', 'light');
+            setTheme('light');
+        } else {
+            localStorage.setItem('theme', 'dark');
+            setTheme('dark');
+        }
+
+        // Now apply the theme to the HTML element
+        const htmlElement = document.documentElement;
+        const userPreference = localStorage.getItem('theme');
+
+        htmlElement.classList.toggle('dark', userPreference === 'dark');
+    };
+
     const handleLogout = () => {
         // Clear authentication details from local storage
         localStorage.removeItem('authDetails');
@@ -67,15 +88,29 @@ export default function Header() {
                     </p>
                 </Link>
             </div>
-            {isAuthenticated && (
+            <div className="flex items-center">
                 <Button
-                    variant="link"
-                    onClick={() => handleLogout()}
-                    className="tracking-[1px]"
+                    variant="ghost"
+                    aria-label="Toggle Theme"
+                    onClick={() => handleThemeToggle()}
+                    className="mr-2"
                 >
-                    LOGOUT
+                    {theme === 'dark' ? (
+                        <Moon className="text-xl" />
+                    ) : (
+                        <Sun className="text-xl" />
+                    )}
                 </Button>
-            )}
+                {isAuthenticated && (
+                    <Button
+                        variant="link"
+                        onClick={() => handleLogout()}
+                        className="tracking-[1px]"
+                    >
+                        LOGOUT
+                    </Button>
+                )}
+            </div>
         </div>
     );
 }
