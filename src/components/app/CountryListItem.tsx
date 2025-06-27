@@ -3,11 +3,13 @@
 // Import global from third party libraries.
 import { Bookmark } from 'lucide-react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 // Import custom components.
 import { Button } from '@/src/components/ui/button';
 
 // Import custom utilities.
+import { useToast } from '@/src/lib/hooks/use-toast';
 
 // Import custom types.
 import { Country } from '@/src/lib/types';
@@ -22,18 +24,59 @@ export default function CountryListItem(props: {
     onClick?: () => void;
 }) {
     // SECTION: States and Constants
+    const [favorites, setFavorites] = useState<Country[]>([]);
+    const { toast } = useToast();
     // !SECTION
 
-    // SECTION: API Queries
+    // SECTION: Functions
+    const isBookmarked = () =>
+        favorites.some(
+            (fav: Country) => fav.cca3 === props.countryDetails.cca3
+        );
     // !SECTION
 
     // SECTION: Event Handlers
     const handleBookmark = (countryDetails: Country) => {
-        // TODO: handle bookmarking a country
+        const authDetails = localStorage.getItem('authDetails');
+        if (!authDetails) {
+            return toast({
+                title: 'Authentication Required',
+                description: 'Please log in to bookmark countries.',
+                variant: 'destructive'
+            });
+        }
+
+        if (isBookmarked()) {
+            // Remove the country from the favorites list
+            const updatedFavorites = favorites.filter(
+                (country: Country) => country.cca3 !== countryDetails.cca3
+            );
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            setFavorites(updatedFavorites);
+            return toast({
+                title: 'Bookmark Removed',
+                description: `${countryDetails.name.common} has been removed from your bookmarks.`,
+                variant: 'default'
+            });
+        }
+
+        // Add the country to the favorites list
+        const updatedFavorites = [...favorites, countryDetails];
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+        setFavorites(updatedFavorites);
+        return toast({
+            title: 'Bookmarked Successfully',
+            description: `${countryDetails.name.common} has been added to your bookmarks.`,
+            variant: 'default'
+        });
     };
     // !SECTION
 
     // SECTION: Side Effects
+    useEffect(() => {
+        const favoriteCountries = localStorage.getItem('favorites');
+        setFavorites(favoriteCountries ? JSON.parse(favoriteCountries) : []);
+    }, []);
     // !SECTION
 
     // SECTION: UI
@@ -44,7 +87,7 @@ export default function CountryListItem(props: {
                 className="!p-0"
                 onClick={() => handleBookmark(props.countryDetails)}
             >
-                <Bookmark />
+                <Bookmark fill={isBookmarked() ? 'currentColor' : 'none'} />
             </Button>
             <Image
                 src={props.countryDetails.flags.svg}
