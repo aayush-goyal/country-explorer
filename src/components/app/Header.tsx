@@ -2,9 +2,10 @@
 
 // Import global from third party libraries.
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 // Import custom components.
-import { useRouter } from 'next/navigation';
 import { Button } from '@/src/components/ui/button';
 
 // Import custom utilities.
@@ -18,6 +19,7 @@ import { Button } from '@/src/components/ui/button';
  */
 export default function Header() {
     // SECTION: States and Constants
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const router = useRouter();
     // !SECTION
 
@@ -36,6 +38,15 @@ export default function Header() {
     // !SECTION
 
     // SECTION: Side Effects
+    useEffect(() => {
+        // Check if user is authenticated
+        const authDetails = localStorage.getItem('authDetails');
+        if (authDetails) {
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+    }, []);
     // !SECTION
 
     // SECTION: UI
@@ -56,9 +67,11 @@ export default function Header() {
                     </p>
                 </Link>
             </div>
-            <Button variant="link" onClick={() => handleLogout()}>
-                LOGOUT
-            </Button>
+            {isAuthenticated && (
+                <Button variant="link" onClick={() => handleLogout()}>
+                    LOGOUT
+                </Button>
+            )}
         </div>
     );
 }
