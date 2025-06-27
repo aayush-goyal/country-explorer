@@ -3,6 +3,7 @@
 // Import global from third party libraries.
 import { Bookmark } from 'lucide-react';
 import Image from 'next/image';
+import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 
 // Import custom components.
@@ -86,7 +87,12 @@ export default function CountryListItem(props: {
 
     // SECTION: UI
     return (
-        <div className="my-4 grid grid-cols-7 items-center justify-items-center gap-2">
+        <motion.div
+            className="my-4 grid grid-cols-7 items-center justify-items-center gap-2"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+        >
             <Button
                 variant="link"
                 className="!p-0"
@@ -108,7 +114,7 @@ export default function CountryListItem(props: {
             <Button variant="secondary" onClick={props.onClick}>
                 CHECKOUT
             </Button>
-        </div>
+        </motion.div>
     );
     // !SECTION
 }
