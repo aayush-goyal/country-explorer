@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { motion } from 'motion/react';
 
 // Import custom components.
 
@@ -55,7 +56,7 @@ export default function CountryDetailsPage() {
     // !SECTION
 
     // SECTION: API Queries
-    const { data, error, isError, isLoading, isFetched, refetch } = useQuery({
+    const { isLoading, isFetched, refetch } = useQuery({
         queryKey: ['is-username-available'],
         queryFn: () =>
             axios.get(
@@ -81,8 +82,6 @@ export default function CountryDetailsPage() {
     useEffect(() => {
         if (pathname) {
             refetch().then((result: any) => {
-                console.log('Refetched data:', result.data.data[0]);
-
                 // Set the country details from the fetched data.
                 setCountryDetails(result.data.data[0]);
             });
@@ -96,20 +95,61 @@ export default function CountryDetailsPage() {
         <div>
             {isLoading && <Loading />}
             {isFetched && (
-                <div className="mt-20 grid items-center justify-items-center lg:grid-cols-[2fr_3fr]">
-                    <div>
-                        <Image
-                            src={countryDetails.flags.svg}
-                            alt={countryDetails.flags.alt}
-                            className="rounded-md"
-                            height={160}
-                            width={320}
-                        />
-                        <h1 className="text-center text-h1 font-bold">
+                <motion.div
+                    className="mt-20 grid items-center justify-items-center gap-y-8 lg:grid-cols-[2fr_3fr]"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, ease: 'easeOut' }}
+                >
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 0.1,
+                            ease: 'easeOut'
+                        }}
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.2,
+                                ease: 'easeOut'
+                            }}
+                        >
+                            <Image
+                                src={countryDetails.flags.svg}
+                                alt={countryDetails.flags.alt}
+                                className="rounded-md"
+                                height={160}
+                                width={320}
+                            />
+                        </motion.div>
+                        <motion.h1
+                            className="mt-4 text-center text-h1 font-bold"
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.3,
+                                ease: 'easeOut'
+                            }}
+                        >
                             {countryDetails?.name?.common}
-                        </h1>
-                        <div className="mt-4">
-                            <h3 className="text-center text-h3">
+                        </motion.h1>
+                        <motion.div
+                            className="mt-8"
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.4,
+                                ease: 'easeOut'
+                            }}
+                        >
+                            <h3 className="mb-2 text-center text-h3">
                                 Border Countries
                             </h3>
                             <div className="flex items-center justify-center space-x-4">
@@ -123,10 +163,18 @@ export default function CountryDetailsPage() {
                                         </Link>
                                     ))}
                             </div>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
-                    <div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 0.5,
+                            ease: 'easeOut'
+                        }}
+                    >
                         <div className="grid grid-cols-[1fr_1fr_1fr] items-center justify-items-center gap-y-10 lg:gap-x-20">
                             <div>
                                 <p className="text-center">Population</p>
@@ -172,40 +220,32 @@ export default function CountryDetailsPage() {
                                         </h4>
                                     ))}
                             </div>
-                            <div>
+                            <div className="col-span-3">
                                 <p className="text-center">Languages</p>
-                                {countryDetails?.languages &&
-                                    Object.values(countryDetails.languages).map(
-                                        (language) => (
+                                <div className="flex items-center space-x-4">
+                                    {countryDetails?.languages &&
+                                        Object.values(
+                                            countryDetails.languages
+                                        ).map((language, index) => (
                                             <h4
                                                 key={language}
                                                 className="text-h4 font-medium"
                                             >
-                                                <p className="text-center">
-                                                    {language}
-                                                </p>
+                                                {language}
+                                                {index <
+                                                Object.values(
+                                                    countryDetails.languages
+                                                ).length -
+                                                    1
+                                                    ? ', '
+                                                    : ''}
                                             </h4>
-                                        )
-                                    )}
-                            </div>
-                            <div>
-                                <p className="text-center">Currencies</p>
-                                {countryDetails?.currencies &&
-                                    Object.values(
-                                        countryDetails.currencies
-                                    ).map((currencyDetails) => (
-                                        <h4
-                                            key={currencyDetails.name}
-                                            className="text-h4 font-medium"
-                                        >
-                                            {currencyDetails.name} (
-                                            {currencyDetails.symbol})
-                                        </h4>
-                                    ))}
+                                        ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             )}
         </div>
     );
