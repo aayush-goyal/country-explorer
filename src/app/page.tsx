@@ -41,7 +41,7 @@ export default function HomePage() {
     const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
     const [fields, setFields] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    // const [regions, setRegions] = useState<string[]>([]);
+    const [region, setRegion] = useState<string | string[]>(allRegions);
     // !SECTION
 
     // SECTION: API Queries
@@ -58,17 +58,23 @@ export default function HomePage() {
     // !SECTION
 
     // SECTION: Event Handlers
-    const handleSearch = (query: string) => {
+    const handleSearch = (query: string, regionFilter: string | string[]) => {
         setSearchQuery(query);
-        if (query.trim() === '') {
-            setFilteredCountries(countries);
-        } else {
+        let filtered = countries;
+        if (regionFilter) {
+            if (typeof regionFilter === 'string') {
+                filtered = filtered.filter(
+                    (country) => country.region === regionFilter
+                );
+            }
+        }
+        if (query.trim() !== '') {
             const lowerCaseQuery = query.toLowerCase();
-            const filtered = countries.filter((country) =>
+            filtered = filtered.filter((country) =>
                 country.name.common.toLowerCase().includes(lowerCaseQuery)
             );
-            setFilteredCountries(filtered);
         }
+        setFilteredCountries(filtered);
     };
     // !SECTION
 
@@ -79,7 +85,6 @@ export default function HomePage() {
 
     useEffect(() => {
         if (isFetched) {
-            console.log(data);
             const countriesData = data.data.sort((a: Country, b: Country) =>
                 a.name.common.localeCompare(b.name.common)
             );
@@ -89,29 +94,23 @@ export default function HomePage() {
     }, [isFetched]);
 
     useEffect(() => {
-        let handler: NodeJS.Timeout;
-
-        if (searchQuery.trim() === '') {
-            setFilteredCountries(countries);
-        } else {
-            handler = setTimeout(() => {
-                handleSearch(searchQuery);
-            }, 500);
-        }
+        const handler: NodeJS.Timeout = setTimeout(() => {
+            handleSearch(searchQuery, region);
+        }, 300);
         return () => clearTimeout(handler);
-    }, [searchQuery]);
+    }, [searchQuery, region, countries]);
     // !SECTION
 
     // SECTION: UI
     // !SECTION
     return (
         <div>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <h1 className="text-h1">Countries</h1>
-                <div className="flex items-center">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                     <Input
                         type="text"
-                        className="ml-4 rounded-lg border px-3 py-2"
+                        className="rounded-lg border px-3 py-2"
                         placeholder="Search countries..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -134,33 +133,39 @@ export default function HomePage() {
                         </svg>
                     </span>
                     <Select
-                    // value={regions}
-                    // onValueChange={(selected: string[]) =>
-                    //     setRegions(selected)
-                    // }
+                        value={
+                            typeof region === 'string' ? region : 'All Regions'
+                        }
+                        onValueChange={(selected: string) => {
+                            if (selected === 'All Regions') {
+                                setRegion(allRegions);
+                            } else {
+                                setRegion(selected);
+                            }
+                        }}
                     >
                         <SelectTrigger
-                            className="ml-4 rounded-lg border px-3 py-2"
+                            className="min-w-[140px] rounded-lg border px-3 py-2"
                             aria-label="Filter by region"
                         >
-                            <SelectContent>
-                                {allRegions.map((region) => (
-                                    <SelectItem key={region} value={region}>
-                                        <div className="flex items-center">
-                                            {/* <input
-                                                type="checkbox"
-                                                checked={regions.includes(
-                                                    region
-                                                )}
-                                                readOnly
-                                                className="mr-2"
-                                            /> */}
-                                            {region}
-                                        </div>
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
+                            {typeof region === 'string'
+                                ? region
+                                : 'All Regions'}
                         </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="All Regions">
+                                <div className="flex items-center">
+                                    All Regions
+                                </div>
+                            </SelectItem>
+                            {allRegions.map((reg) => (
+                                <SelectItem key={reg} value={reg}>
+                                    <div className="flex items-center">
+                                        {reg}
+                                    </div>
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
                     </Select>
                 </div>
             </div>
