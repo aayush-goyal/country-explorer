@@ -73,7 +73,7 @@ export default function Header() {
     // SECTION: UI
     // !SECTION
     return (
-        <div className="flex w-full items-center justify-between bg-ash-gray-light px-8 py-2">
+        <div className="flex w-full items-center justify-between bg-ash-gray-light px-8 py-2 dark:bg-ash-gray">
             <div className="flex items-center space-x-8">
                 <Link href="/">
                     <p className="group relative">

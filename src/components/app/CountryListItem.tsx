@@ -88,7 +88,7 @@ export default function CountryListItem(props: {
     // SECTION: UI
     return (
         <motion.div
-            className="my-4 flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow sm:grid sm:grid-cols-7 sm:items-center sm:justify-items-center sm:gap-2"
+            className="my-4 flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow dark:bg-metal-100 dark:shadow-lg sm:grid sm:grid-cols-7 sm:items-center sm:justify-items-center sm:gap-2"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
@@ -103,20 +103,20 @@ export default function CountryListItem(props: {
             <Image
                 src={props.countryDetails.flags.svg}
                 alt={props.countryDetails.flags.alt}
-                className="order-2 rounded-md sm:order-none"
+                className="order-2 rounded-md border border-metal-20 dark:border-metal-60 sm:order-none"
                 height={32}
                 width={64}
             />
-            <p className="order-3 w-full break-words text-center text-base font-semibold sm:order-none sm:w-auto">
+            <p className="order-3 w-full break-words text-center text-base font-semibold text-metal-base dark:text-amber-10 sm:order-none sm:w-auto">
                 {props.countryDetails.name.common}
             </p>
-            <p className="order-4 w-full text-center text-sm text-gray-700 sm:order-none sm:w-auto">
+            <p className="order-4 w-full text-center text-sm text-gray-700 dark:text-amber-30 sm:order-none sm:w-auto">
                 {props.countryDetails.capital?.join(', ')}
             </p>
-            <p className="order-5 w-full text-center text-sm text-gray-700 sm:order-none sm:w-auto">
+            <p className="order-5 w-full text-center text-sm text-gray-700 dark:text-amber-30 sm:order-none sm:w-auto">
                 {props.countryDetails.region}
             </p>
-            <p className="order-6 w-full text-center text-sm text-gray-700 sm:order-none sm:w-auto">
+            <p className="order-6 w-full text-center text-sm text-gray-700 dark:text-amber-30 sm:order-none sm:w-auto">
                 {props.countryDetails.population.toLocaleString()}
             </p>
             <Button
