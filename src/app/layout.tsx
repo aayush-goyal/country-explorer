@@ -24,11 +24,6 @@ import './globals.css';
 const clashGrotesk = localFont({
     src: [
         {
-            path: '../../public/fonts/clash_grotesk/ClashGrotesk-ExtraLight.otf',
-            weight: '200',
-            style: 'normal'
-        },
-        {
             path: '../../public/fonts/clash_grotesk/ClashGrotesk-Light.otf',
             weight: '300',
             style: 'normal'
