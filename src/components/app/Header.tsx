@@ -68,7 +68,11 @@ export default function Header() {
                 </Link>
             </div>
             {isAuthenticated && (
-                <Button variant="link" onClick={() => handleLogout()}>
+                <Button
+                    variant="link"
+                    onClick={() => handleLogout()}
+                    className="tracking-[1px]"
+                >
                     LOGOUT
                 </Button>
             )}

@@ -22,6 +22,8 @@ import { Country } from '@/src/lib/types';
 export default function CountryListItem(props: {
     countryDetails: Country;
     onClick?: () => void;
+    // eslint-disable-next-line no-unused-vars
+    onBookmarkChange?: (updatedFavorites: Country[]) => void;
 }) {
     // SECTION: States and Constants
     const [favorites, setFavorites] = useState<Country[]>([]);
@@ -53,6 +55,8 @@ export default function CountryListItem(props: {
             );
             localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
             setFavorites(updatedFavorites);
+            if (props.onBookmarkChange)
+                props.onBookmarkChange(updatedFavorites);
             return toast({
                 title: 'Bookmark Removed',
                 description: `${countryDetails.name.common} has been removed from your bookmarks.`,
@@ -64,6 +68,7 @@ export default function CountryListItem(props: {
         const updatedFavorites = [...favorites, countryDetails];
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
         setFavorites(updatedFavorites);
+        if (props.onBookmarkChange) props.onBookmarkChange(updatedFavorites);
         return toast({
             title: 'Bookmarked Successfully',
             description: `${countryDetails.name.common} has been added to your bookmarks.`,
